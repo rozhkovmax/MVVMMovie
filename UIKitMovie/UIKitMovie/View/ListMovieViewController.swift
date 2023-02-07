@@ -1,66 +1,108 @@
-// MovieViewController.swift
+// ListMovieViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
-/// Контроллер представления списка фильмов
-final class MovieViewController: UIViewController {
+/// Список фильмов
+final class ListMovieViewController: UIViewController {
     // MARK: - Private Constants
 
     private enum Constants {
         static let titleText = "Фильмы"
-        static let indentifierMovieCell = "MovieCell"
+        static let identifierMovieCellID = "MovieCell"
         static let movieSegmentControlItems = ["В прокате", "Популярное", "Топ рейтинга"]
-        static let errorText = "Ошибка"
+        static let fatalErrorText = "Критическая ошибка"
         static let backBarButtonItemName = "К списку"
         static let blackCustomColor = UIColor(named: "blackCustomColor")
         static let yellowCustomColor = UIColor(named: "yellowCustomColor")
         static let lightGrayCustomColor = UIColor(named: "lightGrayCustomColor")
         static let whiteCustomColor = UIColor(named: "whiteCustomColor")
-    }
-
-    private enum CompleteQueryString {
-        static let rentalQueryString =
-            "https://api.themoviedb.org/3/movie/upcoming?api_key=b6abe1b1835ab9f0603050760032a03a&language=ru-RU&page=1"
-        static let popularQueryString =
-            "https://api.themoviedb.org/3/movie/popular?api_key=b6abe1b1835ab9f0603050760032a03a&language=ru-RU&page=1"
-        static let topQueryString =
-            "https://api.themoviedb.org/3/movie/top_rated?api_key=b6abe1b1835ab9f0603050760032a03a&language=ru-RU&page=1"
+        static let alertTitle = "Ошибка"
+        static let alertActionTitle = "OK"
     }
 
     // MARK: Private Visual Component
 
     private let movieSegmentControl = UISegmentedControl(items: Constants.movieSegmentControlItems)
     private let movieTableView = UITableView()
-    private let movierefreshControl = UIRefreshControl()
+    private let movieActivityIndicatorView = UIActivityIndicatorView()
 
-    // MARK: - Private Properties
+    // MARK: - Public Properties
 
-    private var movies: ResultsMovie?
+    var listMovieViewModel: ListMovieViewModelProtocol?
+    var onDetailMovieModule: ((Movie) -> ())?
+    var listMovieStates: ListMovieStates = .initial {
+        didSet {
+            DispatchQueue.main.async {
+                self.view.setNeedsLayout()
+            }
+        }
+    }
 
-    // MARK: - Life Cycle
+    // MARK: - Initializers
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+    init(listMovieViewModel: ListMovieViewModelProtocol) {
+        self.listMovieViewModel = listMovieViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.fatalErrorText)
+    }
+
+    // MARK: - Public Methods
+
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        switch listMovieStates {
+        case .initial:
+            setupUI()
+            movieActivityIndicatorView.startAnimating()
+            movieTableView.isHidden = true
+        case .success:
+            movieTableView.isHidden = false
+            movieActivityIndicatorView.isHidden = true
+            movieActivityIndicatorView.stopAnimating()
+            movieTableView.reloadData()
+        case let .failure(error):
+            showAlertController(error: error)
+        }
     }
 
     // MARK: - Private Methods
 
     private func setupUI() {
+        setupListMovieStates()
         createMovieSegmentControl()
         createMovieTableView()
         createVisualPresentation()
-        getMovies(CompleteQueryString.rentalQueryString)
-        createRefreshControl()
+        createActivityIndicatorView()
         createMovieSegmentControlConstraint()
         createMovieTableViewConstraint()
+        createActivityIndicatorViewConstraint()
+        fetchMovies()
     }
 
-    private func createRefreshControl() {
-        movieTableView.addSubview(movierefreshControl)
-        movierefreshControl.addTarget(self, action: #selector(handleRefreshAction), for: .valueChanged)
-        movierefreshControl.tintColor = Constants.yellowCustomColor
+    private func fetchMovies() {
+        listMovieViewModel?.fetchMovies()
+    }
+
+    private func setupListMovieStates() {
+        listMovieViewModel?.listMovieStates = { [weak self] state in
+            self?.listMovieStates = state
+        }
+    }
+
+    private func createActivityIndicatorView() {
+        movieTableView.addSubview(movieActivityIndicatorView)
+        movieActivityIndicatorView.color = Constants.yellowCustomColor
+    }
+
+    private func createActivityIndicatorViewConstraint() {
+        movieActivityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        movieActivityIndicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        movieActivityIndicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
     private func createVisualPresentation() {
@@ -75,24 +117,6 @@ final class MovieViewController: UIViewController {
             target: nil,
             action: nil
         )
-    }
-
-    private func getMovies(_ key: String) {
-        guard let url = URL(string: key) else { return }
-        let session = URLSession.shared
-        session.dataTask(with: url) { data, _, error in
-            guard let data = data else { return }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                self.movies = try decoder.decode(ResultsMovie.self, from: data)
-                DispatchQueue.main.async {
-                    self.movieTableView.reloadData()
-                }
-            } catch {
-                print(Constants.errorText, error)
-            }
-        }.resume()
     }
 
     private func createMovieSegmentControl() {
@@ -122,7 +146,7 @@ final class MovieViewController: UIViewController {
         movieTableView.dataSource = self
         movieTableView.delegate = self
         movieTableView.backgroundColor = Constants.blackCustomColor
-        movieTableView.register(MovieTableViewCell.self, forCellReuseIdentifier: Constants.indentifierMovieCell)
+        movieTableView.register(ListMovieTableViewCell.self, forCellReuseIdentifier: Constants.identifierMovieCellID)
     }
 
     private func createMovieTableViewConstraint() {
@@ -133,39 +157,23 @@ final class MovieViewController: UIViewController {
         movieTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
-    @objc private func handleRefreshAction() {
-        movierefreshControl.endRefreshing()
-    }
-
     @objc private func movieSegmentControlAction(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-        case 0:
-            getMovies(CompleteQueryString.rentalQueryString)
-        case 1:
-            getMovies(CompleteQueryString.popularQueryString)
-        case 2:
-            getMovies(CompleteQueryString.topQueryString)
-        default:
-            break
-        }
+        listMovieViewModel?.segmentControlAction(index: sender.selectedSegmentIndex)
     }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
-
-extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
+/// Расширение для UITableViewDataSource, UITableViewDelegate
+extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let moviesRow = movies?.movies else { return 0 }
+        guard let moviesRow = listMovieViewModel?.movies else { return .zero }
         return moviesRow.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: Constants.indentifierMovieCell,
-            for: indexPath
-        ) as? MovieTableViewCell else { return UITableViewCell() }
-        guard let item = movies?.movies[indexPath.row] else { return UITableViewCell() }
-        cell.refrashMovie(item)
+        guard let listMovieViewModel = listMovieViewModel else { return UITableViewCell() }
+        let cell = ListMovieTableViewCell(style: .default, reuseIdentifier: Constants.identifierMovieCellID)
+        cell.configure(index: indexPath.row, listMovieViewModel: listMovieViewModel)
+        cell.alertDelegate = self
         return cell
     }
 
@@ -174,10 +182,8 @@ extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let movie = movies?.movies[indexPath.row] else { return }
-        let filmViewController = FilmViewController()
-        filmViewController.film = movie
-        navigationController?.pushViewController(filmViewController, animated: true)
+        guard let movie = listMovieViewModel?.movies[indexPath.row] else { return }
+        onDetailMovieModule?(movie)
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -188,5 +194,17 @@ extension MovieViewController: UITableViewDataSource, UITableViewDelegate {
         UIView.animate(withDuration: 0.3, delay: 0.3, options: .curveEaseInOut) {
             cell.layer.transform = CATransform3DIdentity
         }
+    }
+}
+
+/// Расширение для вызова алерта
+extension ListMovieViewController: AlertDelegate {
+    func showAlertController(error: Error) {
+        showAlertController(
+            alertTitle: Constants.alertTitle,
+            alertMessage: error.localizedDescription,
+            alertActionTitle: Constants.alertActionTitle,
+            handler: nil
+        )
     }
 }

@@ -3,8 +3,11 @@
 
 import UIKit
 
+/// AppDelegate
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
+    // MARK: - Public Methods
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [

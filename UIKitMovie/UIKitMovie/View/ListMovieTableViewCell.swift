@@ -1,10 +1,10 @@
-// MovieTableViewCell.swift
+// ListMovieTableViewCell.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
-/// Контроллер представления в ячейке
-final class MovieTableViewCell: UITableViewCell {
+/// Ячейка фильма
+final class ListMovieTableViewCell: UITableViewCell {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -17,6 +17,7 @@ final class MovieTableViewCell: UITableViewCell {
         static let darkGrayCustomColor = UIColor(named: "darkGrayCustomColor")
         static let grayCustomColor = UIColor(named: "grayCustomColor")
         static let lightGrayCustomColor = UIColor(named: "lightGrayCustomColor")
+        static let errorText = "Ошибка"
     }
 
     // MARK: Private Visual Component
@@ -26,7 +27,11 @@ final class MovieTableViewCell: UITableViewCell {
     private let movieOverviewLabel = CustomLabel()
     private let movieRatingLabel = UILabel()
 
-    // MARK: - Life Cycle
+    // MARK: - Public Properties
+
+    weak var alertDelegate: AlertDelegate?
+
+    // MARK: - Initializers
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +41,17 @@ final class MovieTableViewCell: UITableViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError(Constants.fatalErrorText)
+    }
+
+    // MARK: - Public Methods
+
+    func configure(index: Int, listMovieViewModel: ListMovieViewModelProtocol) {
+        let movie = listMovieViewModel.movies[index]
+        guard let imagePath = movie.posterPath else { return }
+        fetchImage(url: imagePath, listMovieViewModel: listMovieViewModel)
+        movieTitleLabel.text = movie.title
+        movieOverviewLabel.text = movie.overview
+        movieRatingLabel.text = String(describing: movie.voteAverage)
     }
 
     // MARK: - Private Methods
@@ -50,6 +66,20 @@ final class MovieTableViewCell: UITableViewCell {
         createMovieImageViewConstraint()
         createMovieTitleLabelConstraint()
         createMovieOverviewLabelConstraint()
+    }
+
+    private func fetchImage(url: String, listMovieViewModel: ListMovieViewModelProtocol) {
+        listMovieViewModel.fetchImage(url: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(data):
+                DispatchQueue.main.async {
+                    self.movieImageView.image = UIImage(data: data)
+                }
+            case let .failure(error):
+                self.alertDelegate?.showAlertController(error: error)
+            }
+        }
     }
 
     private func createVisualPresentation() {
@@ -130,15 +160,5 @@ final class MovieTableViewCell: UITableViewCell {
         movieOverviewLabel.centerXAnchor.constraint(equalTo: movieTitleLabel.centerXAnchor).isActive = true
         movieOverviewLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         movieOverviewLabel.widthAnchor.constraint(equalTo: movieTitleLabel.widthAnchor).isActive = true
-    }
-
-    // MARK: - Public Methods
-
-    func refrashMovie(_ movie: Movie) {
-        movieTitleLabel.text = movie.title
-        movieOverviewLabel.text = movie.overview
-        movieRatingLabel.text = String(describing: movie.voteAverage)
-        guard let image = movie.posterPath else { return }
-        movieImageView.updateImageName(URLAddres: image)
     }
 }

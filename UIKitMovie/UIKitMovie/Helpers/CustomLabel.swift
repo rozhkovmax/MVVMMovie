@@ -3,17 +3,13 @@
 
 import UIKit
 
-/// Добавляем отсутпы в Label
+/// Расширение для добавления отступов
 final class CustomLabel: UILabel {
     // MARK: - Private Properties
 
     private var insets = UIEdgeInsets.zero
 
-    // MARK: - Life Cycle
-
-    override func drawText(in rect: CGRect) {
-        super.drawText(in: rect.inset(by: insets))
-    }
+    // MARK: - Public Properties
 
     override var intrinsicContentSize: CGSize {
         var contentSize = super.intrinsicContentSize
@@ -23,6 +19,10 @@ final class CustomLabel: UILabel {
     }
 
     // MARK: - Public Methods
+
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: insets))
+    }
 
     func padding(top: CGFloat, bottom: CGFloat, left: CGFloat, right: CGFloat) {
         frame = CGRect(x: 0, y: 0, width: frame.width + left + right, height: frame.height + top + bottom)

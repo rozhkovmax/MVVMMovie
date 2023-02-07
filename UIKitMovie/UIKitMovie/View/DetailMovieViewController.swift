@@ -1,10 +1,10 @@
-// FilmViewController.swift
+// DetailMovieViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
-/// Контроллер представления фильма
-final class FilmViewController: UIViewController {
+/// Описание фильма
+final class DetailMovieViewController: UIViewController {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -16,6 +16,9 @@ final class FilmViewController: UIViewController {
         static let blackCustomColor = UIColor(named: "blackCustomColor")
         static let yellowCustomColor = UIColor(named: "yellowCustomColor")
         static let whiteCustomColor = UIColor(named: "whiteCustomColor")
+        static let alertTitle = "Ошибка"
+        static let alertActionTitle = "OK"
+        static let fatalErrorText = "Критическая ошибка"
     }
 
     // MARK: Private Visual Component
@@ -27,7 +30,19 @@ final class FilmViewController: UIViewController {
 
     // MARK: - Public Properties
 
-    var film: Movie?
+    var detailMovieViewModel: DetailMovieViewModelProtocol?
+
+    // MARK: - Initializers
+
+    init(detailMovieViewModel: DetailMovieViewModelProtocol) {
+        self.detailMovieViewModel = detailMovieViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.fatalErrorText)
+    }
 
     // MARK: - Life Cycle
 
@@ -48,12 +63,11 @@ final class FilmViewController: UIViewController {
         createFilmOriginLabelConstraint()
         createFilmFeatureLabelConstraint()
         createFilmDescriptionLabelConstraint()
-        createTapRecognizer()
     }
 
     private func createVisualPresentation() {
         view.backgroundColor = Constants.blackCustomColor
-        title = film?.title
+        title = detailMovieViewModel?.film?.title
         navigationController?.navigationBar
             .titleTextAttributes = [NSAttributedString.Key.foregroundColor: Constants.yellowCustomColor as Any]
         navigationController?.navigationBar.tintColor = Constants.yellowCustomColor
@@ -65,11 +79,6 @@ final class FilmViewController: UIViewController {
         )
     }
 
-    private func createTapRecognizer() {
-        filmImageView.isUserInteractionEnabled = true
-        filmImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapAction)))
-    }
-
     private func createFilmImageView() {
         view.addSubview(filmImageView)
         filmImageView.backgroundColor = Constants.blackCustomColor
@@ -78,8 +87,27 @@ final class FilmViewController: UIViewController {
         filmImageView.contentMode = .scaleToFill
         filmImageView.layer.borderWidth = 1
         filmImageView.layer.borderColor = Constants.yellowCustomColor?.cgColor
-        guard let imageName = film?.backdropPath else { return }
-        filmImageView.updateImageName(URLAddres: imageName)
+        guard let imagePath = detailMovieViewModel?.film?.backdropPath else { return }
+        fetchImage(url: imagePath)
+    }
+
+    private func fetchImage(url: String) {
+        detailMovieViewModel?.fetchImage(url: url, completion: { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(data):
+                DispatchQueue.main.async {
+                    self.filmImageView.image = UIImage(data: data)
+                }
+            case let .failure(error):
+                self.showAlertController(
+                    alertTitle: Constants.alertTitle,
+                    alertMessage: error.localizedDescription,
+                    alertActionTitle: Constants.alertActionTitle,
+                    handler: nil
+                )
+            }
+        })
     }
 
     private func createFilmImageViewConstraint() {
@@ -102,8 +130,8 @@ final class FilmViewController: UIViewController {
         filmOriginLabel.layer.borderColor = Constants.yellowCustomColor?.cgColor
         filmOriginLabel.textColor = Constants.whiteCustomColor
         filmOriginLabel.padding(top: 0, bottom: 0, left: 10, right: 10)
-        guard let originTitle = film?.originalTitle,
-              let originLanguage = film?.originalLanguage else { return }
+        guard let originTitle = detailMovieViewModel?.film?.originalTitle,
+              let originLanguage = detailMovieViewModel?.film?.originalLanguage else { return }
         filmOriginLabel.attributedText = NSMutableAttributedString()
             .normal("\(Constants.originalTitleText) \n")
             .bold("\(originTitle) (\(originLanguage.uppercased()))")
@@ -129,8 +157,8 @@ final class FilmViewController: UIViewController {
         filmFeatureLabel.layer.borderWidth = 1
         filmFeatureLabel.layer.borderColor = Constants.yellowCustomColor?.cgColor
         filmFeatureLabel.textColor = Constants.whiteCustomColor
-        guard let popularity = film?.popularity,
-              let dateOfRelease = film?.releaseDate else { return }
+        guard let popularity = detailMovieViewModel?.film?.popularity,
+              let dateOfRelease = detailMovieViewModel?.film?.releaseDate else { return }
         filmFeatureLabel.attributedText = NSMutableAttributedString()
             .normal("\(Constants.dateOfReleaseText) \(dateOfRelease) \n \(Constants.popularityText) \(popularity)")
     }
@@ -152,7 +180,7 @@ final class FilmViewController: UIViewController {
         filmDescriptionLabel.padding(top: 0, bottom: 0, left: 20, right: 20)
         filmDescriptionLabel.layer.cornerRadius = 10
         filmDescriptionLabel.clipsToBounds = true
-        filmDescriptionLabel.text = film?.overview
+        filmDescriptionLabel.text = detailMovieViewModel?.film?.overview
         filmDescriptionLabel.layer.borderWidth = 1
         filmDescriptionLabel.layer.borderColor = Constants.yellowCustomColor?.cgColor
         filmDescriptionLabel.textColor = Constants.whiteCustomColor
@@ -167,16 +195,11 @@ final class FilmViewController: UIViewController {
     }
 
     @objc private func rightBarButtonAction() {
-        guard let titleText = film?.title else { return }
+        guard let titleText = detailMovieViewModel?.film?.title else { return }
         let buttonActivityViewController = UIActivityViewController(
             activityItems: [titleText],
             applicationActivities: nil
         )
         present(buttonActivityViewController, animated: true)
-    }
-
-    @objc private func tapAction(param: UIGestureRecognizer) {
-        let webViewController = WebViewController()
-        navigationController?.pushViewController(webViewController, animated: true)
     }
 }
