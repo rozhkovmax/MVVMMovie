@@ -8,12 +8,11 @@ protocol ListMovieViewModelProtocol {
     // MARK: - Public Properties
 
     var errorAlert: ErrorHandler? { get set }
-    var movies: [Movie] { get set }
     var networkService: NetworkServiceProtocol { get set }
     var imageService: ImageServiceProtocol { get set }
     var listMovieStates: ((ListMovieStates) -> ())? { get set }
-//    var props: ListMovieStates { get set }
-//    var layoutHandler: VoidHandler? { get set }
+    var listMovieProps: ListMovieStates { get set }
+    var layoutHandler: VoidHandler? { get set }
 
     // MARK: - Public Methods
 

@@ -6,21 +6,20 @@ import Foundation
 /// Вью модель списка фильмов
 final class ListMovieViewModel: ListMovieViewModelProtocol {
     // MARK: - Public Properties
-
-    var movies: [Movie] = []
+    
     var errorAlert: ErrorHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
     var networkService: NetworkServiceProtocol
     var imageService: ImageServiceProtocol
-//    var layoutHandler: VoidHandler?
-//    var props: ListMovieStates = .initial {
-//        didSet {
-//                layoutHandler?()
-//        }
-//    }
-
+    var layoutHandler: VoidHandler?
+    var listMovieProps: ListMovieStates = .initial {
+        didSet {
+            layoutHandler?()
+        }
+    }
+    
     // MARK: - Initializers
-
+    
     init(
         networkService: NetworkServiceProtocol,
         imageService: ImageServiceProtocol
@@ -28,9 +27,9 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
         self.networkService = networkService
         self.imageService = imageService
     }
-
+    
     // MARK: - Public Methods
-
+    
     func segmentControlAction(index: Int) {
         switch index {
         case 0:
@@ -43,12 +42,12 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             break
         }
     }
-
+    
     func fetchMovies() {
-//        listMovieStates?(.initial)
+        listMovieStates?(.initial)
         fetchMovies(method: .upcomingMethod)
     }
-
+    
     func fetchImage(url: String, handler: @escaping DataHandler) {
         imageService.getImage(url: url) { [weak self] result in
             switch result {
@@ -59,20 +58,17 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             }
         }
     }
-
+    
     // MARK: - Private Methods
-
+    
     private func fetchMovies(method: MethodType) {
         networkService.fetchMovies(method: method) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(movies):
-                self.movies = movies.movies
-//                self.props = .success(movies)
-                self.listMovieStates?(.success)
+                self.listMovieProps = .success(movies.movies)
             case let .failure(error):
-//                self.props = .failure(error)
-                self.listMovieStates?(.failure(error))
+                self.listMovieProps = .failure(error)
             }
         }
     }
