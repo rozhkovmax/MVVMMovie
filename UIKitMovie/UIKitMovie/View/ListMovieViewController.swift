@@ -19,6 +19,10 @@ final class ListMovieViewController: UIViewController {
         static let whiteCustomColor = UIColor(named: "whiteCustomColor")
         static let alertTitle = "Ошибка"
         static let alertActionTitle = "OK"
+        static let keyChainAlertTitle = "Вход"
+        static let keyChainAlertMessage = "Введите ключ"
+        static let keyChainKey = "key"
+        static let emptyString = ""
     }
     
     // MARK: Private Visual Component
@@ -50,6 +54,9 @@ final class ListMovieViewController: UIViewController {
         super.viewWillLayoutSubviews()
         switch listMovieViewModel?.listMovieProps {
         case .initial:
+            if listMovieViewModel?.keyChainInfo().getAPIKey(Constants.keyChainKey) == Constants.emptyString {
+                keyChainAlert()
+            }
             setupUI()
             movieActivityIndicatorView.startAnimating()
             movieActivityIndicatorView.isHidden = false
@@ -79,7 +86,19 @@ final class ListMovieViewController: UIViewController {
         createActivityIndicatorViewConstraint()
         fetchMovies()
     }
-    
+
+    private func keyChainAlert() {
+        showKeyChainAlert(
+            alertTitle: Constants.keyChainAlertTitle,
+            alertMessage: Constants.keyChainAlertMessage,
+            alertActionTitle: Constants.alertActionTitle
+        ) { [weak self] apiKey in
+            guard let self = self else { return }
+            self.listMovieViewModel?.keyChainInfo().saveAPIKey(apiKey, forKey: Constants.keyChainKey)
+        }
+        movieTableView.reloadData()
+    }
+
     private func fetchMovies() {
         listMovieViewModel?.fetchMovies()
     }
@@ -163,7 +182,7 @@ final class ListMovieViewController: UIViewController {
 /// Расширение для UITableViewDataSource, UITableViewDelegate
 extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if case .success(let movies) = listMovieViewModel?.listMovieProps {
+        if case let .success(movies) = listMovieViewModel?.listMovieProps {
             return movies.count
         }
         return .zero
@@ -182,10 +201,9 @@ extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if case .success(let movies) = listMovieViewModel?.listMovieProps {
+        if case let .success(movies) = listMovieViewModel?.listMovieProps {
             onDetailMovieHandler?(movies[indexPath.row])
         }
-        
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

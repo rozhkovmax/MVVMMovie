@@ -14,16 +14,28 @@ final class NetworkService: NetworkServiceProtocol {
         static let languageValue = "ru-RU"
         static let pageKey = "page"
         static let pageValue = "1"
-        static let APIKeyValue = "b6abe1b1835ab9f0603050760032a03a"
+        static let keyChainKey = "key"
+    }
+    
+    // MARK: - Public Properties
+    
+    var keyChainService: KeyChainServiceProtocol?
+
+    // MARK: - Initializers
+
+    init(keyChainService: KeyChainServiceProtocol) {
+        self.keyChainService = keyChainService
     }
 
     // MARK: - Public Methods
 
     func fetchMovies(method: MethodType, completion: @escaping (Result<ResultsMovie, Error>) -> Void) {
         guard var urlComponents = URLComponents(string: Constants.baseURL + method.method) else { return }
-        urlComponents.queryItems = [URLQueryItem(name: Constants.APIKey, value: Constants.APIKeyValue),
-                                    URLQueryItem(name: Constants.languageKey, value: Constants.languageValue),
-                                    URLQueryItem(name: Constants.pageKey, value: Constants.pageValue)]
+        urlComponents.queryItems = [
+            URLQueryItem(name: Constants.APIKey, value: keyChainService?.getAPIKey(Constants.keyChainKey)),
+            URLQueryItem(name: Constants.languageKey, value: Constants.languageValue),
+            URLQueryItem(name: Constants.pageKey, value: Constants.pageValue)
+        ]
         guard let url = urlComponents.url else { return }
         URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data else { return }

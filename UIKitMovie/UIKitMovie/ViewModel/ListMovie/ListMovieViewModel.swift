@@ -11,6 +11,7 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     var listMovieStates: ((ListMovieStates) -> ())?
     var networkService: NetworkServiceProtocol
     var imageService: ImageServiceProtocol
+    let keyChainService: KeyChainServiceProtocol
     var layoutHandler: VoidHandler?
     var listMovieProps: ListMovieStates = .initial {
         didSet {
@@ -22,14 +23,20 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     
     init(
         networkService: NetworkServiceProtocol,
-        imageService: ImageServiceProtocol
+        imageService: ImageServiceProtocol,
+        keyChainService: KeyChainServiceProtocol
     ) {
         self.networkService = networkService
         self.imageService = imageService
+        self.keyChainService = keyChainService
     }
     
     // MARK: - Public Methods
     
+    func keyChainInfo() -> KeyChainServiceProtocol {
+        keyChainService
+    }
+
     func segmentControlAction(index: Int) {
         switch index {
         case 0:

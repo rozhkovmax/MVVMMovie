@@ -46,7 +46,7 @@ final class ListMovieTableViewCell: UITableViewCell {
     // MARK: - Public Methods
     
     func configure(index: Int, listMovieViewModel: ListMovieViewModelProtocol) {
-        if case .success(let movies) = listMovieViewModel.listMovieProps {
+        if case let .success(movies) = listMovieViewModel.listMovieProps {
             let movie = movies[index]
             guard let imagePath = movie.posterPath else { return }
             fetchImage(url: imagePath, listMovieViewModel: listMovieViewModel)
