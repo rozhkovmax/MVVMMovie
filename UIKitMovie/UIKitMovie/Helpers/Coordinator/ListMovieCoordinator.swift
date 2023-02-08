@@ -5,29 +5,29 @@ import UIKit
 
 /// Координатор списка фильмов
 final class ListMovieCoordinator: BaseCoordinator {
-    // MARK: - Private Visual Components
-
-    private var rootController: UINavigationController?
-
     // MARK: - Public Properties
-
+    
     var onDetailMovieModule: ((Movie) -> ())?
     var assemblyBuilder: AssemblyBuilderProtocol?
-
+    
+    // MARK: - Private Properties
+    
+    private var rootController: UINavigationController?
+    
     // MARK: - Initializers
-
+    
     init(assemblyBuilder: AssemblyBuilderProtocol) {
         self.assemblyBuilder = assemblyBuilder
     }
-
+    
     // MARK: - Public Methods
-
+    
     override func start() {
         showListMovieModule()
     }
-
+    
     // MARK: - Private Methods
-
+    
     private func showListMovieModule() {
         guard let controller = assemblyBuilder?.makeListMovieModule() as? ListMovieViewController else { return }
         controller.onDetailMovieModule = { [weak self] movie in
@@ -37,7 +37,7 @@ final class ListMovieCoordinator: BaseCoordinator {
         setAsRoot(rootController)
         self.rootController = rootController
     }
-
+    
     private func showDetailMovieModule(movie: Movie) {
         guard let controller = assemblyBuilder?
             .makeDetailMovieModule(movie: movie) as? DetailMovieViewController else { return }
