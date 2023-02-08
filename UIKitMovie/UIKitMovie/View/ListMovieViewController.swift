@@ -1,5 +1,5 @@
 // ListMovieViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
@@ -19,6 +19,7 @@ final class ListMovieViewController: UIViewController {
         static let whiteCustomColor = UIColor(named: "whiteCustomColor")
         static let alertTitle = "Ошибка"
         static let alertActionTitle = "OK"
+        static let alertMessageText = "Ошибка!"
     }
 
     // MARK: Private Visual Component
@@ -30,14 +31,14 @@ final class ListMovieViewController: UIViewController {
     // MARK: - Public Properties
 
     var listMovieViewModel: ListMovieViewModelProtocol?
-    var onDetailMovieModule: ((Movie) -> ())?
+    var onDetailMovieHandler: ((Movie) -> ())?
     var listMovieStates: ListMovieStates = .initial {
-        didSet {
-            DispatchQueue.main.async {
-                self.view.setNeedsLayout()
-            }
-        }
-    }
+             didSet {
+                 DispatchQueue.main.async {
+                     self.view.setNeedsLayout()
+                 }
+             }
+         }
 
     // MARK: - Initializers
 
@@ -59,6 +60,7 @@ final class ListMovieViewController: UIViewController {
         case .initial:
             setupUI()
             movieActivityIndicatorView.startAnimating()
+            movieActivityIndicatorView.isHidden = false
             movieTableView.isHidden = true
         case .success:
             movieTableView.isHidden = false
@@ -67,6 +69,11 @@ final class ListMovieViewController: UIViewController {
             movieTableView.reloadData()
         case let .failure(error):
             showAlertController(error: error)
+//        default:
+//            showAlertController(alertTitle: Constants.alertTitle,
+//                                alertMessage: Constants.alertMessageText,
+//                                alertActionTitle: Constants.alertActionTitle,
+//                                handler: nil)
         }
     }
 
@@ -74,6 +81,7 @@ final class ListMovieViewController: UIViewController {
 
     private func setupUI() {
         setupListMovieStates()
+//        setupNeedsLayout()
         createMovieSegmentControl()
         createMovieTableView()
         createVisualPresentation()
@@ -93,6 +101,14 @@ final class ListMovieViewController: UIViewController {
             self?.listMovieStates = state
         }
     }
+    
+//    private func setupNeedsLayout() {
+//        listMovieViewModel?.layoutHandler = { [weak self] in
+//            DispatchQueue.main.async {
+//                self?.view.setNeedsLayout()
+//            }
+//        }
+//    }
 
     private func createActivityIndicatorView() {
         movieTableView.addSubview(movieActivityIndicatorView)
@@ -183,7 +199,7 @@ extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let movie = listMovieViewModel?.movies[indexPath.row] else { return }
-        onDetailMovieModule?(movie)
+        onDetailMovieHandler?(movie)
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

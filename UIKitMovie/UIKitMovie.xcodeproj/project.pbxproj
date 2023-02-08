@@ -34,14 +34,15 @@
 		9474D83129080FB000C41961 /* ListMovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474D83029080FB000C41961 /* ListMovieTableViewCell.swift */; };
 		9491895229927A860048071C /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491895129927A860048071C /* DetailMovieViewModel.swift */; };
 		9491895429927A9D0048071C /* DetailMovieViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9491895329927A9D0048071C /* DetailMovieViewModelProtocol.swift */; };
-		94996546299194D200BA2F99 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94996545299194D200BA2F99 /* FileManagerService.swift */; };
-		94996548299194F500BA2F99 /* FileManagerServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94996547299194F500BA2F99 /* FileManagerServiceProtocol.swift */; };
+		94996546299194D200BA2F99 /* FileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94996545299194D200BA2F99 /* FileService.swift */; };
+		94996548299194F500BA2F99 /* FileServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94996547299194F500BA2F99 /* FileServiceProtocol.swift */; };
 		9499654A2991955B00BA2F99 /* ImageNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965492991955B00BA2F99 /* ImageNetworkService.swift */; };
 		9499654C2991957700BA2F99 /* ImageNetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9499654B2991957700BA2F99 /* ImageNetworkServiceProtocol.swift */; };
 		94996551299197C300BA2F99 /* ProxyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94996550299197C300BA2F99 /* ProxyProtocol.swift */; };
 		949965532991980900BA2F99 /* Proxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965522991980900BA2F99 /* Proxy.swift */; };
 		949965562991990700BA2F99 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965552991990700BA2F99 /* ImageService.swift */; };
 		949965582991991D00BA2F99 /* ImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965572991991D00BA2F99 /* ImageServiceProtocol.swift */; };
+		94D945062993C985002A8EF7 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D945052993C985002A8EF7 /* Typealias.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,14 +75,15 @@
 		9474D83029080FB000C41961 /* ListMovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMovieTableViewCell.swift; sourceTree = "<group>"; };
 		9491895129927A860048071C /* DetailMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewModel.swift; sourceTree = "<group>"; };
 		9491895329927A9D0048071C /* DetailMovieViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewModelProtocol.swift; sourceTree = "<group>"; };
-		94996545299194D200BA2F99 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
-		94996547299194F500BA2F99 /* FileManagerServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerServiceProtocol.swift; sourceTree = "<group>"; };
+		94996545299194D200BA2F99 /* FileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileService.swift; sourceTree = "<group>"; };
+		94996547299194F500BA2F99 /* FileServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileServiceProtocol.swift; sourceTree = "<group>"; };
 		949965492991955B00BA2F99 /* ImageNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkService.swift; sourceTree = "<group>"; };
 		9499654B2991957700BA2F99 /* ImageNetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		94996550299197C300BA2F99 /* ProxyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyProtocol.swift; sourceTree = "<group>"; };
 		949965522991980900BA2F99 /* Proxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Proxy.swift; sourceTree = "<group>"; };
 		949965552991990700BA2F99 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		949965572991991D00BA2F99 /* ImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceProtocol.swift; sourceTree = "<group>"; };
+		94D945052993C985002A8EF7 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				943180DE290B25F80010D03F /* CustomLabel.swift */,
+				94D945052993C985002A8EF7 /* Typealias.swift */,
 				946853AA299132A500C98D3F /* MethodType.swift */,
 				943CD4012992BD4F00C1FC7A /* AlertDelegate.swift */,
 				943CD4032992F62500C1FC7A /* ListMovieStates.swift */,
@@ -127,7 +130,7 @@
 				949965542991980F00BA2F99 /* Proxy */,
 				9499654D2991978600BA2F99 /* NetworkService */,
 				9499654E2991979500BA2F99 /* ImageNetworkService */,
-				9499654F299197A100BA2F99 /* FileManagerService */,
+				9499654F299197A100BA2F99 /* FileService */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -239,13 +242,13 @@
 			path = ImageNetworkService;
 			sourceTree = "<group>";
 		};
-		9499654F299197A100BA2F99 /* FileManagerService */ = {
+		9499654F299197A100BA2F99 /* FileService */ = {
 			isa = PBXGroup;
 			children = (
-				94996547299194F500BA2F99 /* FileManagerServiceProtocol.swift */,
-				94996545299194D200BA2F99 /* FileManagerService.swift */,
+				94996547299194F500BA2F99 /* FileServiceProtocol.swift */,
+				94996545299194D200BA2F99 /* FileService.swift */,
 			);
-			path = FileManagerService;
+			path = FileService;
 			sourceTree = "<group>";
 		};
 		949965542991980F00BA2F99 /* Proxy */ = {
@@ -338,7 +341,7 @@
 		9474D82829070C0500C41961 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -350,7 +353,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
 		};
@@ -381,14 +384,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9499654A2991955B00BA2F99 /* ImageNetworkService.swift in Sources */,
+				94D945062993C985002A8EF7 /* Typealias.swift in Sources */,
 				946853AF299157DE00C98D3F /* UIViewController+Extension.swift in Sources */,
 				946853B129916C5400C98D3F /* ResultsMovie.swift in Sources */,
-				94996548299194F500BA2F99 /* FileManagerServiceProtocol.swift in Sources */,
+				94996548299194F500BA2F99 /* FileServiceProtocol.swift in Sources */,
 				949965532991980900BA2F99 /* Proxy.swift in Sources */,
 				946853AD2991330A00C98D3F /* NetworkService.swift in Sources */,
 				9474D82B29075EA900C41961 /* Movie.swift in Sources */,
 				9474D81929070B9600C41961 /* ListMovieViewController.swift in Sources */,
-				94996546299194D200BA2F99 /* FileManagerService.swift in Sources */,
+				94996546299194D200BA2F99 /* FileService.swift in Sources */,
 				9491895429927A9D0048071C /* DetailMovieViewModelProtocol.swift in Sources */,
 				9499654C2991957700BA2F99 /* ImageNetworkServiceProtocol.swift in Sources */,
 				946853AB299132A500C98D3F /* MethodType.swift in Sources */,

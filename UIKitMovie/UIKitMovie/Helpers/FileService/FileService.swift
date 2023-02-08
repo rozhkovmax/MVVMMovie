@@ -1,10 +1,10 @@
-// FileManagerService.swift
-// Copyright © RoadMap. All rights reserved.
+// FileService.swift
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import Foundation
 
-/// Сервис файл менеджер
-final class FileManagerService: FileManagerServiceProtocol {
+/// Файл менеджер
+final class FileService: FileServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -54,7 +54,7 @@ final class FileManagerService: FileManagerServiceProtocol {
         else { return nil }
         let hashName = url.split(separator: Constants.separator).last ?? Constants.defaultFileName
         return cachesDirectory
-            .appendingPathComponent(FileManagerService.pathName + String(Constants.separator) + hashName)
+            .appendingPathComponent(FileService.pathName + String(Constants.separator) + hashName)
             .path
     }
 }

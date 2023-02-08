@@ -1,5 +1,5 @@
 // DetailMovieViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import Foundation
 
@@ -9,6 +9,7 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     var film: Movie?
     var imageService: ImageServiceProtocol
+    var errorAlert: ErrorHandler?
 
     // MARK: - Initializers
 
@@ -22,13 +23,13 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     // MARK: - Public Methods
 
-    func fetchImage(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        imageService.getImage(url: url) { result in
+    func fetchImage(url: String, handler: @escaping DataHandler) {
+        imageService.getImage(url: url) { [weak self] result in
             switch result {
             case let .success(data):
-                completion(.success(data))
+                handler(data)
             case let .failure(error):
-                completion(.failure(error))
+                self?.errorAlert?(error)
             }
         }
     }

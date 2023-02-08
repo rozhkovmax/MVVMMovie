@@ -1,5 +1,5 @@
 // DetailMovieViewController.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
@@ -92,22 +92,12 @@ final class DetailMovieViewController: UIViewController {
     }
 
     private func fetchImage(url: String) {
-        detailMovieViewModel?.fetchImage(url: url, completion: { [weak self] result in
+        detailMovieViewModel?.fetchImage(url: url) { [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case let .success(data):
-                DispatchQueue.main.async {
-                    self.filmImageView.image = UIImage(data: data)
-                }
-            case let .failure(error):
-                self.showAlertController(
-                    alertTitle: Constants.alertTitle,
-                    alertMessage: error.localizedDescription,
-                    alertActionTitle: Constants.alertActionTitle,
-                    handler: nil
-                )
+            DispatchQueue.main.async {
+                self.filmImageView.image = UIImage(data: data)
             }
-        })
+        }
     }
 
     private func createFilmImageViewConstraint() {

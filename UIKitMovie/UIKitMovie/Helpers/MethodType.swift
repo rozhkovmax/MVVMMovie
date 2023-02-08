@@ -1,5 +1,5 @@
 // MethodType.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import Foundation
 

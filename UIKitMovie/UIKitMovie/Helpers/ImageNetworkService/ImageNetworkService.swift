@@ -1,5 +1,5 @@
 // ImageNetworkService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import Foundation
 
@@ -8,13 +8,14 @@ final class ImageNetworkService: ImageNetworkServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
-        static let imageStartName = "https://image.tmdb.org/t/p/w500"
+        static let imageBaseUrlText = "https://image.tmdb.org/t/p/w500"
     }
 
     // MARK: - Public Methods
 
     func fetchImage(imagePath: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        guard let imageURL = URL(string: "\(Constants.imageStartName)\(imagePath)") else { return }
+        guard let urlComponents = URLComponents(string: Constants.imageBaseUrlText) else { return }
+        guard let imageURL = URL(string: "\(urlComponents)\(imagePath)") else { return }
         URLSession.shared.dataTask(with: imageURL) { data, _, error in
             guard let data = data else { return }
             completion(.success(data))

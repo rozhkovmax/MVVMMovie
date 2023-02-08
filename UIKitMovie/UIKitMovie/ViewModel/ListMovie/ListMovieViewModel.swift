@@ -1,5 +1,5 @@
 // ListMovieViewModel.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import Foundation
 
@@ -8,11 +8,16 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     // MARK: - Public Properties
 
     var movies: [Movie] = []
-    var updateView: (() -> ())?
-    var errorAlert: ((Error) -> ())?
+    var errorAlert: ErrorHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
     var networkService: NetworkServiceProtocol
     var imageService: ImageServiceProtocol
+//    var layoutHandler: VoidHandler?
+//    var props: ListMovieStates = .initial {
+//        didSet {
+//                layoutHandler?()
+//        }
+//    }
 
     // MARK: - Initializers
 
@@ -40,16 +45,17 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     }
 
     func fetchMovies() {
+//        listMovieStates?(.initial)
         fetchMovies(method: .upcomingMethod)
     }
 
-    func fetchImage(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        imageService.getImage(url: url) { result in
+    func fetchImage(url: String, handler: @escaping DataHandler) {
+        imageService.getImage(url: url) { [weak self] result in
             switch result {
             case let .success(data):
-                completion(.success(data))
+                handler(data)
             case let .failure(error):
-                completion(.failure(error))
+                self?.errorAlert?(error)
             }
         }
     }
@@ -62,8 +68,10 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             switch result {
             case let .success(movies):
                 self.movies = movies.movies
+//                self.props = .success(movies)
                 self.listMovieStates?(.success)
             case let .failure(error):
+//                self.props = .failure(error)
                 self.listMovieStates?(.failure(error))
             }
         }

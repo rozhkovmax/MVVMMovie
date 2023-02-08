@@ -1,5 +1,5 @@
 // ImageService.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
@@ -8,12 +8,12 @@ final class ImageService: ImageServiceProtocol {
     // MARK: - Public Properties
 
     let imageNetworkService = ImageNetworkService()
-    let fileManagerService = FileManagerService()
+    let fileService = FileService()
 
     // MARK: - Public Methods
 
     func getImage(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        let proxy = Proxy(imageNetworkService: imageNetworkService, fileManagerService: fileManagerService)
+        let proxy = Proxy(imageNetworkService: imageNetworkService, fileService: fileService)
         proxy.loadImage(url: url) { result in
             switch result {
             case let .success(data):

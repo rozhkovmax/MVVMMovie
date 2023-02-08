@@ -1,5 +1,5 @@
 // ListMovieTableViewCell.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
@@ -67,17 +67,12 @@ final class ListMovieTableViewCell: UITableViewCell {
         createMovieTitleLabelConstraint()
         createMovieOverviewLabelConstraint()
     }
-
+    
     private func fetchImage(url: String, listMovieViewModel: ListMovieViewModelProtocol) {
-        listMovieViewModel.fetchImage(url: url) { [weak self] result in
+        listMovieViewModel.fetchImage(url: url) { [weak self] data in
             guard let self = self else { return }
-            switch result {
-            case let .success(data):
-                DispatchQueue.main.async {
-                    self.movieImageView.image = UIImage(data: data)
-                }
-            case let .failure(error):
-                self.alertDelegate?.showAlertController(error: error)
+            DispatchQueue.main.async {
+                self.movieImageView.image = UIImage(data: data)
             }
         }
     }
