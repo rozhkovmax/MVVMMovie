@@ -1,10 +1,9 @@
 // NSMutableAttributedString+Extension.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
-// MARK: - Расширение для NSMutableAttributedString
-
+/// Расширение для изменения строки
 extension NSMutableAttributedString {
     var boldFont: UIFont { UIFont.boldSystemFont(ofSize: 18) }
     var systemFont: UIFont { UIFont.systemFont(ofSize: 18) }

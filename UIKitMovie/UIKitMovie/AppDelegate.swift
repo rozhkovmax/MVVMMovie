@@ -1,10 +1,13 @@
 // AppDelegate.swift
-// Copyright © RoadMap. All rights reserved.
+// Copyright © Rozhkov M.N. All rights reserved.
 
 import UIKit
 
+/// AppDelegate
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
+    // MARK: - Public Methods
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [
