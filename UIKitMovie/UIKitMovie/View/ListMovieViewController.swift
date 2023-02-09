@@ -85,6 +85,7 @@ final class ListMovieViewController: UIViewController {
         createMovieTableViewConstraint()
         createActivityIndicatorViewConstraint()
         fetchMovies()
+        coreDataAlert()
     }
 
     private func keyChainAlert() {
@@ -108,6 +109,14 @@ final class ListMovieViewController: UIViewController {
         listMovieViewModel?.layoutHandler = { [weak self] in
             DispatchQueue.main.async {
                 self?.view.setNeedsLayout()
+            }
+        }
+    }
+
+    private func coreDataAlert() {
+        listMovieViewModel?.errorCoreDataAlert = { [weak self] error in
+            DispatchQueue.main.async {
+                self?.showAlertCoreData(error: error)
             }
         }
     }
@@ -224,6 +233,15 @@ extension ListMovieViewController: AlertDelegate {
         showAlertController(
             alertTitle: Constants.alertTitle,
             alertMessage: error.localizedDescription,
+            alertActionTitle: Constants.alertActionTitle,
+            handler: nil
+        )
+    }
+
+    func showAlertCoreData(error: String) {
+        showAlertController(
+            alertTitle: Constants.alertTitle,
+            alertMessage: error.localizedCapitalized,
             alertActionTitle: Constants.alertActionTitle,
             handler: nil
         )

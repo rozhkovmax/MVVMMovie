@@ -6,6 +6,8 @@ import Foundation
 /// Протокол вью модели списка фильмов
 protocol ListMovieViewModelProtocol {
     var errorAlert: ErrorHandler? { get set }
+    var errorCoreDataAlert: AlertHandler? { get set }
+    var coreDataService: CoreDataServiceProtocol { get set }
     var networkService: NetworkServiceProtocol { get set }
     var imageService: ImageServiceProtocol { get set }
     var listMovieStates: ((ListMovieStates) -> ())? { get set }

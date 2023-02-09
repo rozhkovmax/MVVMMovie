@@ -5,16 +5,24 @@ import UIKit
 
 // Сборщик экранов
 final class AssemblyBuilder: AssemblyBuilderProtocol {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let coreDataModelName = "MovieDataModel"
+    }
+
     // MARK: - Public Methods
 
     func makeListMovieModule() -> UIViewController {
+        let coreDataService = CoreDataService(modelName: Constants.coreDataModelName)
         let keyChainService = KeyChainService()
         let networkService = NetworkService(keyChainService: keyChainService)
         let imageService = ImageService()
         let listMovieViewModel = ListMovieViewModel(
             networkService: networkService,
             imageService: imageService,
-            keyChainService: keyChainService
+            keyChainService: keyChainService,
+            coreDataService: coreDataService
         )
         let listMovieViewController = ListMovieViewController(listMovieViewModel: listMovieViewModel)
         return listMovieViewController

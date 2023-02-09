@@ -5,16 +5,11 @@ import Foundation
 
 /// Вью модель списка фильмов
 final class ListMovieViewModel: ListMovieViewModelProtocol {
-    // MARK: - Private Constants
-
-    private enum Constants {
-        static let coreDataModelName = "MovieDataModel"
-    }
-
     // MARK: - Public Properties
 
-    var coreDataStack = CoreDataStack(modelName: Constants.coreDataModelName)
+    var coreDataService: CoreDataServiceProtocol
     var errorAlert: ErrorHandler?
+    var errorCoreDataAlert: AlertHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
     var networkService: NetworkServiceProtocol
     var imageService: ImageServiceProtocol
@@ -31,11 +26,13 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     init(
         networkService: NetworkServiceProtocol,
         imageService: ImageServiceProtocol,
-        keyChainService: KeyChainServiceProtocol
+        keyChainService: KeyChainServiceProtocol,
+        coreDataService: CoreDataServiceProtocol
     ) {
         self.networkService = networkService
         self.imageService = imageService
         self.keyChainService = keyChainService
+        self.coreDataService = coreDataService
     }
 
     // MARK: - Public Methods
@@ -80,8 +77,8 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             guard let self = self else { return }
             switch result {
             case let .success(movies):
-                self.coreDataStack.saveContext(movies: movies.movies, moviesType: method)
-                let movies = self.coreDataStack.getData(moviesType: method)
+                self.coreDataService.saveData(movies: movies.movies, moviesType: method)
+                let movies = self.coreDataService.getData(moviesType: method)
                 self.listMovieProps = .success(movies)
             case let .failure(error):
                 self.listMovieProps = .failure(error)
@@ -90,7 +87,7 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     }
 
     private func loadMovies(method: MethodType) {
-        let movies = coreDataStack.getData(moviesType: method)
+        let movies = coreDataService.getData(moviesType: method)
         if !movies.isEmpty {
             listMovieProps = .success(movies)
         } else {

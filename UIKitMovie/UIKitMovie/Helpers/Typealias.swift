@@ -9,4 +9,5 @@ typealias VoidHandler = () -> Void
 typealias ErrorHandler = (Error) -> Void
 typealias DataHandler = (Data) -> Void
 typealias StringHandler = ((String) -> Void)?
+typealias AlertHandler = (String) -> Void
 // swiftlint:enable all

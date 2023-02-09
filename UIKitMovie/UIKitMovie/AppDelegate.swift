@@ -25,5 +25,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return delegate
     }()
 
-    lazy var coreDataStack: CoreDataStack = .init(modelName: Constants.coreDataModelName)
+    lazy var coreDataService: CoreDataService = .init(modelName: Constants.coreDataModelName)
 }

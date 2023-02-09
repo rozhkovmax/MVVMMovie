@@ -1,10 +1,10 @@
-// CoreDataStack.swift
+// CoreDataService.swift
 // Copyright © Rozhkov M.N. All rights reserved.
 
 import CoreData
 
-/// База данных
-final class CoreDataStack {
+/// Сервис базы данных
+final class CoreDataService: CoreDataServiceProtocol {
     // MARK: - Private Constants
 
     private enum Constants {
@@ -17,17 +17,17 @@ final class CoreDataStack {
 
     // MARK: - Public Properties
 
-    lazy var managedContext: NSManagedObjectContext = self.storeContainer.viewContext
+    var errorCoreDataAlert: AlertHandler?
 
     // MARK: - Private Properties
 
     private let modelName: String
-
+    private lazy var managedContext: NSManagedObjectContext = self.storeContainer.viewContext
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.modelName)
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                print("\(Constants.errorText) \(error), \(error.userInfo)")
+                self.errorCoreDataAlert?(error.localizedDescription)
             }
         }
         return container
@@ -41,7 +41,7 @@ final class CoreDataStack {
 
     // MARK: - Public Methods
 
-    func saveContext(movies: [Movie], moviesType: MethodType) {
+    func saveData(movies: [Movie], moviesType: MethodType) {
         guard let newMovie = NSEntityDescription.entity(
             forEntityName: Constants.coreDataModelName,
             in: managedContext
@@ -63,7 +63,7 @@ final class CoreDataStack {
             do {
                 try managedContext.save()
             } catch let error as NSError {
-                print("\(Constants.errorText) \(error), \(error.userInfo)")
+                errorCoreDataAlert?(error.localizedDescription)
             }
         }
     }
@@ -76,7 +76,7 @@ final class CoreDataStack {
         do {
             movieObjects = try managedContext.fetch(fetchRequest)
         } catch let error as NSError {
-            print(error.localizedDescription)
+            errorCoreDataAlert?(error.localizedDescription)
         }
         return movieObjects
     }
