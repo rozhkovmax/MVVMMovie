@@ -6,6 +6,6 @@ import Foundation
 /// Список состояния экрана
 enum ListMovieStates {
     case initial
-    case success([Movie])
+    case success([MovieData])
     case failure(Error)
 }

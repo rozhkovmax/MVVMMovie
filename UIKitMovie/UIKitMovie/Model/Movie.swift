@@ -6,7 +6,7 @@ import Foundation
 /// Фильм
 struct Movie: Decodable {
     /// Идентификатор
-    let id: Int
+    let movieId: Int
     /// Постер
     let posterPath: String?
     /// Название
@@ -27,7 +27,7 @@ struct Movie: Decodable {
     let backdropPath: String?
 
     private enum CodingKeys: String, CodingKey {
-        case id
+        case movieId = "id"
         case posterPath = "poster_path"
         case title
         case overview

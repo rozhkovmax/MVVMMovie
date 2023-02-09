@@ -25,10 +25,12 @@ extension UIViewController {
         present(alertController, animated: true)
     }
 
-    func showKeyChainAlert(alertTitle: String?,
-                           alertMessage: String?,
-                           alertActionTitle: String?,
-                           handler: StringHandler) {
+    func showKeyChainAlert(
+        alertTitle: String?,
+        alertMessage: String?,
+        alertActionTitle: String?,
+        handler: StringHandler
+    ) {
         let alertController = UIAlertController(title: alertTitle, message: alertMessage, preferredStyle: .alert)
         let alertControllerAction = UIAlertAction(title: alertActionTitle, style: .default) { _ in
             let result = alertController.textFields?.first?.text ?? ""

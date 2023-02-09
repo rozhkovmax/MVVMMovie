@@ -7,14 +7,14 @@ import Foundation
 final class DetailMovieViewModel: DetailMovieViewModelProtocol {
     // MARK: - Public Properties
 
-    var film: Movie?
+    var film: MovieData?
     var imageService: ImageServiceProtocol
     var errorAlert: ErrorHandler?
 
     // MARK: - Initializers
 
     init(
-        film: Movie?,
+        film: MovieData?,
         imageService: ImageServiceProtocol
     ) {
         self.imageService = imageService

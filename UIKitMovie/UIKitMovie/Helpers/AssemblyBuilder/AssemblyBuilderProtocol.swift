@@ -6,5 +6,5 @@ import UIKit
 // Протокол сборщика экранов
 protocol AssemblyBuilderProtocol {
     func makeListMovieModule() -> UIViewController
-    func makeDetailMovieModule(movie: Movie?) -> UIViewController
+    func makeDetailMovieModule(movie: MovieData?) -> UIViewController
 }

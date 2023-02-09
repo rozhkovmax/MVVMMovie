@@ -7,7 +7,7 @@ import UIKit
 final class ListMovieCoordinator: BaseCoordinator {
     // MARK: - Public Properties
 
-    var onDetailMovieModule: ((Movie) -> ())?
+    var onDetailMovieModule: ((MovieData) -> ())?
     var assemblyBuilder: AssemblyBuilderProtocol?
 
     // MARK: - Private Properties
@@ -38,7 +38,7 @@ final class ListMovieCoordinator: BaseCoordinator {
         self.rootController = rootController
     }
 
-    private func showDetailMovieModule(movie: Movie) {
+    private func showDetailMovieModule(movie: MovieData) {
         guard let controller = assemblyBuilder?
             .makeDetailMovieModule(movie: movie) as? DetailMovieViewController else { return }
         rootController?.pushViewController(controller, animated: true)

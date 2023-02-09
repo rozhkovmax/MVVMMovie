@@ -16,9 +16,9 @@ final class NetworkService: NetworkServiceProtocol {
         static let pageValue = "1"
         static let keyChainKey = "key"
     }
-    
+
     // MARK: - Public Properties
-    
+
     var keyChainService: KeyChainServiceProtocol?
 
     // MARK: - Initializers

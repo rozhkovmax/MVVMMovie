@@ -1,20 +1,29 @@
 // AppDelegate.swift
 // Copyright © Rozhkov M.N. All rights reserved.
 
+import CoreData
 import UIKit
 
 /// AppDelegate
 @main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
-    // MARK: - Public Methods
-    
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [
-            UIApplication.LaunchOptionsKey:
-                Any
-        ]?
-    ) -> Bool {
-        true
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    // MARK: - Private Constants
+
+    private enum Constants {
+        static let fatalErrorText = "Критическая ошибка"
+        static let coreDataModelName = "MovieData"
     }
+
+    // MARK: - Public Properties
+
+    static let sharedAppDelegate: AppDelegate = {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError(
+                "\(Constants.fatalErrorText) \(String(describing: UIApplication.shared.delegate))"
+            )
+        }
+        return delegate
+    }()
+
+    lazy var coreDataStack: CoreDataStack = .init(modelName: Constants.coreDataModelName)
 }

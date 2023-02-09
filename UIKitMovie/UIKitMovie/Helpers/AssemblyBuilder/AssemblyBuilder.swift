@@ -20,7 +20,7 @@ final class AssemblyBuilder: AssemblyBuilderProtocol {
         return listMovieViewController
     }
 
-    func makeDetailMovieModule(movie: Movie?) -> UIViewController {
+    func makeDetailMovieModule(movie: MovieData?) -> UIViewController {
         let imageService = ImageService()
         let detailMovieViewModel = DetailMovieViewModel(
             film: movie,
