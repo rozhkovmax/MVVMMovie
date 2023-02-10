@@ -97,7 +97,9 @@ final class ListMovieViewController: UIViewController {
             guard let self = self else { return }
             self.listMovieViewModel?.keyChainInfo().saveAPIKey(apiKey, forKey: Constants.keyChainKey)
             self.fetchMovies()
-            self.movieTableView.reloadData()
+            DispatchQueue.main.async {
+                self.movieTableView.reloadData()
+            }
         }
     }
 
