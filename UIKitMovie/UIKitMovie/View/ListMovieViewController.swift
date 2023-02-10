@@ -34,7 +34,7 @@ final class ListMovieViewController: UIViewController {
     // MARK: - Public Properties
 
     var listMovieViewModel: ListMovieViewModelProtocol?
-    var onDetailMovieHandler: ((MovieData) -> ())?
+    var detailMovieHandler: MovieDataHandler?
 
     // MARK: - Initializers
 
@@ -212,7 +212,7 @@ extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if case let .success(movies) = listMovieViewModel?.listMovieProps {
-            onDetailMovieHandler?(movies[indexPath.row])
+            detailMovieHandler?(movies[indexPath.row])
         }
     }
 

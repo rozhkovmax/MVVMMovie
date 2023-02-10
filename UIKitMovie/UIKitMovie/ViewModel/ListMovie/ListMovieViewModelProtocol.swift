@@ -18,4 +18,5 @@ protocol ListMovieViewModelProtocol {
     func segmentControlAction(index: Int)
     func fetchImage(url: String, handler: @escaping DataHandler)
     func keyChainInfo() -> KeyChainServiceProtocol
+    func loadMovies(method: MethodType)
 }

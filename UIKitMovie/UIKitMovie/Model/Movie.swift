@@ -5,7 +5,7 @@ import Foundation
 
 /// Фильм
 struct Movie: Decodable {
-    /// Идентификатор
+    /// Идентификатор фильма
     let movieId: Int
     /// Постер
     let posterPath: String?

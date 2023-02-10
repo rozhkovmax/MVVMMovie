@@ -70,6 +70,15 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
         }
     }
 
+    func loadMovies(method: MethodType) {
+        let movies = coreDataService.getData(moviesType: method)
+        if !movies.isEmpty {
+            listMovieProps = .success(movies)
+        } else {
+            fetchMovies(method: method)
+        }
+    }
+
     // MARK: - Private Methods
 
     private func fetchMovies(method: MethodType) {
@@ -83,15 +92,6 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             case let .failure(error):
                 self.listMovieProps = .failure(error)
             }
-        }
-    }
-
-    private func loadMovies(method: MethodType) {
-        let movies = coreDataService.getData(moviesType: method)
-        if !movies.isEmpty {
-            listMovieProps = .success(movies)
-        } else {
-            fetchMovies(method: method)
         }
     }
 }
