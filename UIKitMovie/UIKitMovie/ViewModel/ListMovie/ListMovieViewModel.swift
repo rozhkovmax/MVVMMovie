@@ -6,11 +6,10 @@ import Foundation
 /// Вью модель списка фильмов
 final class ListMovieViewModel: ListMovieViewModelProtocol {
     // MARK: - Public Properties
-    
+
     var errorAlert: ErrorHandler?
+    var errorCoreDataAlert: AlertHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
-    var networkService: NetworkServiceProtocol
-    var imageService: ImageServiceProtocol
     var layoutHandler: VoidHandler?
     var listMovieProps: ListMovieStates = .initial {
         didSet {
@@ -18,36 +17,51 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
         }
     }
     
-    // MARK: - Initializers
+    // MARK: - Private Properties
     
+    private let coreDataService: CoreDataServiceProtocol
+    private let networkService: NetworkServiceProtocol
+    private let imageService: ImageServiceProtocol
+    private let keyChainService: KeyChainServiceProtocol
+
+    // MARK: - Initializers
+
     init(
         networkService: NetworkServiceProtocol,
-        imageService: ImageServiceProtocol
+        imageService: ImageServiceProtocol,
+        keyChainService: KeyChainServiceProtocol,
+        coreDataService: CoreDataServiceProtocol
     ) {
         self.networkService = networkService
         self.imageService = imageService
+        self.keyChainService = keyChainService
+        self.coreDataService = coreDataService
     }
-    
+
     // MARK: - Public Methods
-    
+
+    func keyChainInfo() -> KeyChainServiceProtocol {
+        keyChainService
+    }
+
     func segmentControlAction(index: Int) {
         switch index {
         case 0:
-            fetchMovies(method: .upcomingMethod)
+            loadMovies(method: .upcomingMethod)
         case 1:
-            fetchMovies(method: .popularMethod)
+            loadMovies(method: .popularMethod)
         case 2:
-            fetchMovies(method: .topRatedMethod)
+            loadMovies(method: .topRatedMethod)
         default:
             break
         }
     }
-    
+
     func fetchMovies() {
         listMovieStates?(.initial)
-        fetchMovies(method: .upcomingMethod)
+        loadMovies(method: .upcomingMethod)
     }
-    
+
     func fetchImage(url: String, handler: @escaping DataHandler) {
         imageService.getImage(url: url) { [weak self] result in
             switch result {
@@ -58,15 +72,26 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             }
         }
     }
-    
+
+    func loadMovies(method: MethodType) {
+        let movies = coreDataService.getData(moviesType: method)
+        if !movies.isEmpty {
+            listMovieProps = .success(movies)
+        } else {
+            fetchMovies(method: method)
+        }
+    }
+
     // MARK: - Private Methods
-    
+
     private func fetchMovies(method: MethodType) {
         networkService.fetchMovies(method: method) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(movies):
-                self.listMovieProps = .success(movies.movies)
+                self.coreDataService.saveData(movies: movies.movies, moviesType: method)
+                let movies = self.coreDataService.getData(moviesType: method)
+                self.listMovieProps = .success(movies)
             case let .failure(error):
                 self.listMovieProps = .failure(error)
             }
