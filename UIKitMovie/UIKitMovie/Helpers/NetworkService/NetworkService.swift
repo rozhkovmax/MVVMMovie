@@ -19,7 +19,7 @@ final class NetworkService: NetworkServiceProtocol {
 
     // MARK: - Public Properties
 
-    var keyChainService: KeyChainServiceProtocol?
+    private var keyChainService: KeyChainServiceProtocol?
 
     // MARK: - Initializers
 

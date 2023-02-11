@@ -7,19 +7,22 @@ import Foundation
 final class ListMovieViewModel: ListMovieViewModelProtocol {
     // MARK: - Public Properties
 
-    var coreDataService: CoreDataServiceProtocol
     var errorAlert: ErrorHandler?
     var errorCoreDataAlert: AlertHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
-    var networkService: NetworkServiceProtocol
-    var imageService: ImageServiceProtocol
-    let keyChainService: KeyChainServiceProtocol
     var layoutHandler: VoidHandler?
     var listMovieProps: ListMovieStates = .initial {
         didSet {
             layoutHandler?()
         }
     }
+    
+    // MARK: - Private Properties
+    
+    private let coreDataService: CoreDataServiceProtocol
+    private let networkService: NetworkServiceProtocol
+    private let imageService: ImageServiceProtocol
+    private let keyChainService: KeyChainServiceProtocol
 
     // MARK: - Initializers
 

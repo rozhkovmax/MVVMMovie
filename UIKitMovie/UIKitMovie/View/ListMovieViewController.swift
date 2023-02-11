@@ -52,6 +52,25 @@ final class ListMovieViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        setup()
+    }
+
+    // MARK: - Private Methods
+
+    private func setupUI() {
+        layoutBind()
+        createMovieSegmentControl()
+        createMovieTableView()
+        createVisualPresentation()
+        createActivityIndicatorView()
+        createMovieSegmentControlConstraint()
+        createMovieTableViewConstraint()
+        createActivityIndicatorViewConstraint()
+        fetchMovies()
+        coreDataAlert()
+    }
+
+    private func setup() {
         switch listMovieViewModel?.listMovieProps {
         case .initial:
             if listMovieViewModel?.keyChainInfo().getAPIKey(Constants.keyChainKey) == Constants.emptyString {
@@ -71,21 +90,6 @@ final class ListMovieViewController: UIViewController {
         default:
             break
         }
-    }
-
-    // MARK: - Private Methods
-
-    private func setupUI() {
-        layoutBind()
-        createMovieSegmentControl()
-        createMovieTableView()
-        createVisualPresentation()
-        createActivityIndicatorView()
-        createMovieSegmentControlConstraint()
-        createMovieTableViewConstraint()
-        createActivityIndicatorViewConstraint()
-        fetchMovies()
-        coreDataAlert()
     }
 
     private func keyChainAlert() {
