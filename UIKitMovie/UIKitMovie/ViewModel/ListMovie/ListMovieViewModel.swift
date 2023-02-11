@@ -16,9 +16,9 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
             layoutHandler?()
         }
     }
-    
+
     // MARK: - Private Properties
-    
+
     private let coreDataService: CoreDataServiceProtocol
     private let networkService: NetworkServiceProtocol
     private let imageService: ImageServiceProtocol
