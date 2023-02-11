@@ -48,12 +48,9 @@
 		949965562991990700BA2F99 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965552991990700BA2F99 /* ImageService.swift */; };
 		949965582991991D00BA2F99 /* ImageServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949965572991991D00BA2F99 /* ImageServiceProtocol.swift */; };
 		94D945062993C985002A8EF7 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D945052993C985002A8EF7 /* Typealias.swift */; };
-		9F6DA1032686EBEA17370CDD /* Pods_UIKitMovie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 914A4189FFDCA89AC17B1487 /* Pods_UIKitMovie.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		35E0F757AF4301942729A913 /* Pods-UIKitMovie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIKitMovie.release.xcconfig"; path = "Target Support Files/Pods-UIKitMovie/Pods-UIKitMovie.release.xcconfig"; sourceTree = "<group>"; };
-		914A4189FFDCA89AC17B1487 /* Pods_UIKitMovie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIKitMovie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		942E34D62991A66B009F844A /* ListMovieCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMovieCoordinator.swift; sourceTree = "<group>"; };
 		942E34D82991A6FB009F844A /* BaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCoordinator.swift; sourceTree = "<group>"; };
 		942E34DB2991AC60009F844A /* AssemblyBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyBuilder.swift; sourceTree = "<group>"; };
@@ -97,7 +94,6 @@
 		949965552991990700BA2F99 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		949965572991991D00BA2F99 /* ImageServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageServiceProtocol.swift; sourceTree = "<group>"; };
 		94D945052993C985002A8EF7 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
-		A7756A2D16325A9B766622AA /* Pods-UIKitMovie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIKitMovie.debug.xcconfig"; path = "Target Support Files/Pods-UIKitMovie/Pods-UIKitMovie.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,21 +101,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F6DA1032686EBEA17370CDD /* Pods_UIKitMovie.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		433B2176BAA8ABF328899783 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				914A4189FFDCA89AC17B1487 /* Pods_UIKitMovie.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		942E34D52991A643009F844A /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,7 +171,6 @@
 				9474D81329070B9600C41961 /* UIKitMovie */,
 				9474D81229070B9600C41961 /* Products */,
 				E290D94451D9441CD4B34B90 /* Pods */,
-				433B2176BAA8ABF328899783 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -318,8 +304,6 @@
 		E290D94451D9441CD4B34B90 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A7756A2D16325A9B766622AA /* Pods-UIKitMovie.debug.xcconfig */,
-				35E0F757AF4301942729A913 /* Pods-UIKitMovie.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -331,13 +315,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9474D82529070B9700C41961 /* Build configuration list for PBXNativeTarget "UIKitMovie" */;
 			buildPhases = (
-				6FE70AC7F4E7020A68F4FC20 /* [CP] Check Pods Manifest.lock */,
 				9474D82829070C0500C41961 /* Swift Format */,
 				9474D82929070D2600C41961 /* Swift Lint */,
 				9474D80D29070B9600C41961 /* Sources */,
 				9474D80E29070B9600C41961 /* Frameworks */,
 				9474D80F29070B9600C41961 /* Resources */,
-				44895DA362A8E6B5FCF07F98 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -395,45 +377,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		44895DA362A8E6B5FCF07F98 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIKitMovie/Pods-UIKitMovie-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-UIKitMovie/Pods-UIKitMovie-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-UIKitMovie/Pods-UIKitMovie-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FE70AC7F4E7020A68F4FC20 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-UIKitMovie-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9474D82829070C0500C41961 /* Swift Format */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -658,7 +601,6 @@
 		};
 		9474D82629070B9700C41961 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A7756A2D16325A9B766622AA /* Pods-UIKitMovie.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -686,7 +628,6 @@
 		};
 		9474D82729070B9700C41961 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35E0F757AF4301942729A913 /* Pods-UIKitMovie.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
