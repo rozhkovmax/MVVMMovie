@@ -5,9 +5,9 @@ import UIKit
 
 /// Главный координатор
 class BaseCoordinator {
-    // MARK: - Private Properties
+    // MARK: - Public Properties
 
-    private var childCoordinators: [BaseCoordinator] = []
+    var childCoordinators: [BaseCoordinator] = []
 
     // MARK: - Public Methods
 
@@ -18,7 +18,6 @@ class BaseCoordinator {
             return
         }
         childCoordinators.append(coordinator)
-        print(childCoordinators)
     }
 
     func removeDependency(_ coordinator: BaseCoordinator?) {

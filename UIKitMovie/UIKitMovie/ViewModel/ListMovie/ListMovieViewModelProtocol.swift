@@ -10,6 +10,7 @@ protocol ListMovieViewModelProtocol {
     var listMovieStates: ((ListMovieStates) -> ())? { get set }
     var listMovieProps: ListMovieStates { get set }
     var layoutHandler: VoidHandler? { get set }
+    var methodType: MethodType { get set }
 
     func fetchMovies()
     func segmentControlAction(index: Int)
