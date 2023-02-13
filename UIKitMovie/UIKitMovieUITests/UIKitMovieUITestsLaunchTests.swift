@@ -19,7 +19,8 @@ final class UIKitMovieUITestsLaunchTests: XCTestCase {
 
     // MARK: - Public Methods
 
-    override func setUpWithError() throws {
+    override func setUp() {
+        super.setUp()
         continueAfterFailure = false
     }
 

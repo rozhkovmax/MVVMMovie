@@ -22,6 +22,7 @@ final class DetailMovieViewModelTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         detailMovieViewModel = DetailMovieViewModel(
             film: film,
             imageService: mockImageService
@@ -29,6 +30,7 @@ final class DetailMovieViewModelTests: XCTestCase {
     }
 
     override func tearDown() {
+        super.tearDown()
         detailMovieViewModel = nil
     }
 

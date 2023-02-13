@@ -22,10 +22,12 @@ final class ProxyTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         proxy = Proxy(imageNetworkService: mockImageNetworkService, fileService: mockFileService)
     }
 
     override func tearDown() {
+        super.tearDown()
         proxy = nil
     }
 

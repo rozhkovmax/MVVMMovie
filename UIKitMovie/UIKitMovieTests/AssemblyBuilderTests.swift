@@ -22,10 +22,12 @@ final class AssemblyBuilderTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         assemblyBuilder = AssemblyBuilder()
     }
 
     override func tearDown() {
+        super.tearDown()
         assemblyBuilder = nil
     }
 

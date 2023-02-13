@@ -21,10 +21,12 @@ final class FileServiceTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         fileService = FileService()
     }
 
     override func tearDown() {
+        super.tearDown()
         fileService = nil
     }
 

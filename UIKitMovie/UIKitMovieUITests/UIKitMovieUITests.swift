@@ -24,6 +24,7 @@ final class UIKitMovieUITests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         continueAfterFailure = false
         application.launch()
     }

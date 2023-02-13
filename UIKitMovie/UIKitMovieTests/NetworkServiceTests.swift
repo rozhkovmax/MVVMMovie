@@ -22,10 +22,12 @@ final class NetworkServiceTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         networkService = NetworkService(keyChainService: mockKeyChainService)
     }
 
     override func tearDown() {
+        super.tearDown()
         networkService = nil
     }
 

@@ -21,10 +21,12 @@ final class KeyChainServiceTests: XCTestCase {
     // MARK: - Public Methods
 
     override func setUp() {
+        super.setUp()
         keyChainService = KeyChainService()
     }
 
     override func tearDown() {
+        super.tearDown()
         keyChainService = nil
     }
 
