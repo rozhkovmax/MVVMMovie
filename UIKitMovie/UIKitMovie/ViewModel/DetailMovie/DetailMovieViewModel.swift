@@ -9,9 +9,9 @@ final class DetailMovieViewModel: DetailMovieViewModelProtocol {
 
     var film: MovieData?
     var errorAlert: ErrorHandler?
-    
+
     // MARK: - Private Properties
-    
+
     private let imageService: ImageServiceProtocol
 
     // MARK: - Initializers

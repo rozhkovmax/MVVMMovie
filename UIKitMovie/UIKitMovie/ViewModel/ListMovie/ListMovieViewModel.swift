@@ -11,14 +11,15 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     var errorCoreDataAlert: AlertHandler?
     var listMovieStates: ((ListMovieStates) -> ())?
     var layoutHandler: VoidHandler?
+    var methodType: MethodType = .popularMethod
     var listMovieProps: ListMovieStates = .initial {
         didSet {
             layoutHandler?()
         }
     }
-    
+
     // MARK: - Private Properties
-    
+
     private let coreDataService: CoreDataServiceProtocol
     private let networkService: NetworkServiceProtocol
     private let imageService: ImageServiceProtocol
@@ -47,14 +48,15 @@ final class ListMovieViewModel: ListMovieViewModelProtocol {
     func segmentControlAction(index: Int) {
         switch index {
         case 0:
-            loadMovies(method: .upcomingMethod)
+            methodType = .upcomingMethod
         case 1:
-            loadMovies(method: .popularMethod)
+            methodType = .popularMethod
         case 2:
-            loadMovies(method: .topRatedMethod)
+            methodType = .topRatedMethod
         default:
             break
         }
+        loadMovies(method: methodType)
     }
 
     func fetchMovies() {

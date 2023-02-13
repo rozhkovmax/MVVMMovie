@@ -23,6 +23,8 @@ final class ListMovieViewController: UIViewController {
         static let keyChainAlertMessage = "Введите ключ"
         static let keyChainKey = "key"
         static let emptyString = ""
+        static let listMovieTableViewAccessibilityID = "MovieAccessibilityID"
+        static let listMovieCellAccessibilityID = "cellNumber_"
     }
 
     // MARK: Private Visual Component
@@ -180,6 +182,7 @@ final class ListMovieViewController: UIViewController {
         movieTableView.delegate = self
         movieTableView.backgroundColor = Constants.blackCustomColor
         movieTableView.register(ListMovieTableViewCell.self, forCellReuseIdentifier: Constants.identifierMovieCellID)
+        movieTableView.accessibilityIdentifier = Constants.listMovieTableViewAccessibilityID
     }
 
     private func createMovieTableViewConstraint() {
@@ -209,6 +212,7 @@ extension ListMovieViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = ListMovieTableViewCell(style: .default, reuseIdentifier: Constants.identifierMovieCellID)
         cell.configure(index: indexPath.row, listMovieViewModel: listMovieViewModel)
         cell.alertDelegate = self
+        cell.accessibilityIdentifier = "\(Constants.listMovieCellAccessibilityID)\(indexPath.row)"
         return cell
     }
 
