@@ -14,16 +14,18 @@ final class DetailMovieViewModelTests: XCTestCase {
     }
 
     // MARK: - Private Properties
-    
+
     private let film: MovieData? = nil
     private let mockImageService = MockImageService()
     private var detailMovieViewModel: DetailMovieViewModelProtocol?
-    
+
     // MARK: - Public Methods
-    
+
     override func setUp() {
-        detailMovieViewModel = DetailMovieViewModel(film: film,
-                                                    imageService: mockImageService)
+        detailMovieViewModel = DetailMovieViewModel(
+            film: film,
+            imageService: mockImageService
+        )
     }
 
     override func tearDown() {

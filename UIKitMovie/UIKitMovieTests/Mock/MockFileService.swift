@@ -8,10 +8,10 @@ import Foundation
 /// Мок  файл менеджера
 final class MockFileService: FileServiceProtocol {
     // MARK: - Public Methods
-    
+
     func getImageFromCache(url: String) -> Data? {
         Data()
     }
-    
+
     func saveImageToCache(url: String, data: Data) {}
 }

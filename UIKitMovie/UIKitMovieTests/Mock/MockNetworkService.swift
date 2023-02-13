@@ -17,8 +17,10 @@ final class MockNetworkService: NetworkServiceProtocol {
     // MARK: - Public Methods
 
     func fetchMovies(method: MethodType, completion: @escaping (Result<ResultsMovie, Error>) -> Void) {
-        guard let jsonURL = Bundle.main.path(forResource: Constants.mockMovieJSONName,
-                                             ofType: Constants.mockMovieJSONType)
+        guard let jsonURL = Bundle.main.path(
+            forResource: Constants.mockMovieJSONName,
+            ofType: Constants.mockMovieJSONType
+        )
         else { return }
         do {
             let fileURL = URL(fileURLWithPath: jsonURL)
@@ -29,4 +31,4 @@ final class MockNetworkService: NetworkServiceProtocol {
             completion(.failure(error))
         }
     }
- }
+}

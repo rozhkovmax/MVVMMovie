@@ -8,7 +8,7 @@ import UIKit
 /// Мок сервиса запроса изображения
 final class MockImageService: ImageServiceProtocol {
     // MARK: - Public Methods
-    
+
     func getImage(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
         do {
             guard let data = url.data(using: .utf8) else { return }

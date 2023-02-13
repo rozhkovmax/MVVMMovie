@@ -8,25 +8,25 @@ import XCTest
 /// Тестирование сервиса получения изображений
 final class ImageNetworkServiceTests: XCTestCase {
     // MARK: - Private Constants
-    
+
     private enum Constants {
         static let mockString = "Baz"
     }
-    
+
     // MARK: - Private Properties
-    
+
     private var imageNetworkService: ImageNetworkService?
-    
+
     // MARK: - Public Methods
-    
+
     override func setUp() {
         imageNetworkService = ImageNetworkService()
     }
-    
+
     override func tearDown() {
         imageNetworkService = nil
     }
-    
+
     func testFetchImage() throws {
         imageNetworkService?.fetchImage(imagePath: Constants.mockString, completion: { result in
             switch result {

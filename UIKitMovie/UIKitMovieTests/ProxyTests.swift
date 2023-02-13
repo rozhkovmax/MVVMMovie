@@ -8,27 +8,27 @@ import XCTest
 /// Тестирование прокси
 final class ProxyTests: XCTestCase {
     // MARK: - Private Constants
-    
+
     private enum Constants {
         static let mockString = "Foo"
     }
-    
+
     // MARK: - Private Properties
-    
+
     private let mockImageNetworkService = MockImageNetworkService()
     private let mockFileService = MockFileService()
     private var proxy: ProxyProtocol?
-    
+
     // MARK: - Public Methods
-    
+
     override func setUp() {
         proxy = Proxy(imageNetworkService: mockImageNetworkService, fileService: mockFileService)
     }
-    
+
     override func tearDown() {
         proxy = nil
     }
-    
+
     func testLoadImage() throws {
         proxy?.loadImage(url: Constants.mockString, completion: { result in
             switch result {

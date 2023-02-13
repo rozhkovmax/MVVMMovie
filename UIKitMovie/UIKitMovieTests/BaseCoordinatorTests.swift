@@ -8,25 +8,25 @@ import XCTest
 /// Тестирование координатора
 final class BaseCoordinatorTests: XCTestCase {
     // MARK: - Private Properties
-    
+
     private let mockCoordinator = MockCoordinator()
     private var baseCoordinator: BaseCoordinator?
-    
+
     // MARK: - Public Methods
-    
+
     override func setUp() {
         baseCoordinator = BaseCoordinator()
     }
-    
+
     override func tearDown() {
         baseCoordinator = nil
     }
-    
+
     func testAddDependency() {
         baseCoordinator?.addDependency(mockCoordinator)
         XCTAssertTrue(baseCoordinator?.childCoordinators.first === mockCoordinator)
     }
-    
+
     func testRemoveDependency() {
         baseCoordinator?.addDependency(mockCoordinator)
         baseCoordinator?.removeDependency(mockCoordinator)

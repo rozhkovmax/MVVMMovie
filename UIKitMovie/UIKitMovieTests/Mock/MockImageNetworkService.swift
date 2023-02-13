@@ -8,6 +8,6 @@ import UIKit
 /// Мок сервиса получения изображений
 final class MockImageNetworkService: ImageNetworkServiceProtocol {
     // MARK: - Public Methods
-    
+
     func fetchImage(imagePath: String, completion: @escaping (Result<Data, Error>) -> Void) {}
 }

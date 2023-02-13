@@ -11,29 +11,32 @@ final class ListMovieViewModelTests: XCTestCase {
 
     private enum Constants {
         static let mockString = "Baz"
+        static let resultCount = 1
     }
-    
+
     // MARK: - Private Properties
-    
+
     private let mockNetworkService = MockNetworkService()
     private let mockImageService = MockImageService()
     private let mockKeychainService = MockKeyChainService()
     private let mockCoreDataService = MockCoreDataService()
     private var listMovieViewModel: ListMovieViewModelProtocol?
-    
+
     // MARK: - Public Methods
-    
+
     override func setUp() {
-        listMovieViewModel = ListMovieViewModel(networkService: mockNetworkService,
-                                                imageService: mockImageService,
-                                                keyChainService: mockKeychainService,
-                                                coreDataService: mockCoreDataService)
+        listMovieViewModel = ListMovieViewModel(
+            networkService: mockNetworkService,
+            imageService: mockImageService,
+            keyChainService: mockKeychainService,
+            coreDataService: mockCoreDataService
+        )
     }
-    
+
     override func tearDown() {
         listMovieViewModel = nil
     }
-    
+
     func testSegmentControlAction() {
         listMovieViewModel?.segmentControlAction(index: 0)
         XCTAssertEqual(listMovieViewModel?.methodType, .upcomingMethod)
@@ -42,23 +45,23 @@ final class ListMovieViewModelTests: XCTestCase {
         listMovieViewModel?.segmentControlAction(index: 2)
         XCTAssertEqual(listMovieViewModel?.methodType, .topRatedMethod)
     }
-    
+
     func testFetchMovies() {
         listMovieViewModel?.segmentControlAction(index: 0)
         switch listMovieViewModel?.listMovieProps {
-        case .success(let result):
-            XCTAssertEqual(result.count, 1)
+        case let .success(result):
+            XCTAssertEqual(result.count, Constants.resultCount)
         default:
             break
         }
     }
-    
+
     func testFetchImage() {
         listMovieViewModel?.fetchImage(url: Constants.mockString) { result in
             XCTAssertEqual(result, Constants.mockString.data(using: .utf8))
         }
     }
-    
+
     func testFetchMovie() {
         XCTAssertNoThrow(listMovieViewModel?.fetchMovies())
     }
